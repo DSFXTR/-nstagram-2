@@ -144,4 +144,182 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialPro v4 | Doruk Seyrek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .story-ring { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; }
+        .page { display: none; min-height: 100vh; }
+        .active-page { display: block; }
+        #storyOverlay { display:none; position:fixed; inset:0; background:black; z-index:1000; }
+        .progress-fill { height:100%; background:white; width:0%; transition: width 0.1s linear; }
+        .search-grid div { aspect-ratio: 1/1; overflow: hidden; }
+        .search-grid img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body class="bg-gray-50 pb-20">
+
+    <div id="storyOverlay">
+        <div class="h-1 bg-gray-600 w-[90%] mx-auto mt-4 rounded-full overflow-hidden"><div id="storyFill" class="progress-fill"></div></div>
+        <div class="flex items-center p-4 text-white">
+            <img id="storyUserImg" src="" class="w-8 h-8 rounded-full border mr-3">
+            <span id="storyUserName" class="font-bold"></span>
+            <button onclick="closeStory()" class="ml-auto text-3xl">&times;</button>
+        </div>
+        <div class="h-[75vh] flex items-center justify-center"><img id="storyContent" src="" class="max-h-full"></div>
+    </div>
+
+    <div id="homePage" class="page active-page">
+        <header class="sticky top-0 z-50 bg-white border-b px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-bold italic tracking-tighter">SocialPro</h1>
+            <div class="flex space-x-5 text-xl"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-paper-plane"></i></div>
+        </header>
+
+        <div class="bg-white border-b py-4 overflow-x-auto flex space-x-4 px-4 hide-scrollbar">
+            <div onclick="openStory('Galatasaray', 'https://i.pravatar.cc/150?u=gs', 'https://images.unsplash.com/photo-1574629810360-7efbbe195018')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+                <div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=gs" class="w-14 h-14 rounded-full border-2 border-white"></div>
+                <span class="text-[10px] mt-1">galatasaray</span>
+            </div>
+            <div onclick="openStory('Osimhen', 'https://i.pravatar.cc/150?u=os', 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+                <div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=os" class="w-14 h-14 rounded-full border-2 border-white"></div>
+                <span class="text-[10px] mt-1">v.osimhen</span>
+            </div>
+            <div onclick="openStory('NASA', 'https://i.pravatar.cc/150?u=nasa', 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+                <div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=nasa" class="w-14 h-14 rounded-full border-2 border-white"></div>
+                <span class="text-[10px] mt-1">nasa_official</span>
+            </div>
+        </div>
+
+        <main id="feedContainer" class="max-w-lg mx-auto">
+            </main>
+    </div>
+
+    <div id="searchPage" class="page">
+        <div class="p-3 sticky top-0 bg-white border-b z-50">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+                <input type="text" id="searchInput" onkeyup="simulateSearch()" placeholder="Ara (Galatasaray, YouTube...)" class="w-full bg-gray-100 rounded-lg py-2 pl-10 outline-none">
+            </div>
+        </div>
+        
+        <div id="searchResults" class="p-4 hidden bg-white">
+            <h3 class="text-xs font-bold text-gray-400 mb-4 uppercase">Hesaplar</h3>
+            <div id="searchList"></div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-0.5 search-grid">
+            <div><img src="https://picsum.photos/400/400?random=21"></div>
+            <div><img src="https://picsum.photos/400/400?random=22"></div>
+            <div class="row-span-2 bg-black flex items-center"><video src="https://assets.mixkit.co/videos/preview/mixkit-man-playing-basketball-in-the-street-at-night-2144-large.mp4" autoplay muted loop class="w-full h-full object-cover"></video></div>
+            <div><img src="https://picsum.photos/400/400?random=24"></div>
+            <div><img src="https://picsum.photos/400/400?random=25"></div>
+            <div><img src="https://picsum.photos/400/400?random=26"></div>
+        </div>
+    </div>
+
+    <div id="cameraPage" class="page bg-black text-white h-screen">
+        <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
+        <div class="absolute top-10 left-0 w-full flex justify-between px-6">
+            <i class="fa-solid fa-xmark text-2xl" onclick="switchTab('homePage')"></i>
+            <span class="font-bold">KAMERA</span>
+            <i class="fa-solid fa-bolt text-2xl"></i>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 w-full bg-white border-t flex justify-around items-center py-3 text-2xl z-[500]">
+        <i class="fa-solid fa-house cursor-pointer" onclick="switchTab('homePage')"></i>
+        <i class="fa-solid fa-magnifying-glass cursor-pointer" onclick="switchTab('searchPage')"></i>
+        <i class="fa-solid fa-square-plus text-blue-600 cursor-pointer" onclick="startCamera()"></i>
+        <i class="fa-solid fa-clapperboard text-gray-400"></i>
+        <div class="w-7 h-7 rounded-full border overflow-hidden" onclick="alert('Profil Sayfası')"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doruk"></div>
+    </nav>
+
+    <script>
+        // --- 1. OTOMATİK GÖNDERİ OLUŞTURMA (SONSUZ AKIŞ) ---
+        const posts = [
+            { user: 'aslan_gucu', img: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20', desc: 'Sarı kırmızı aşkı başkadır! 🦁 #GS #Cimbom' },
+            { user: 'tech_guru', vid: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-close-up-1728-large.mp4', desc: 'Yeni HTML projesi yolda! 👨‍💻' },
+            { user: 'uzay_yolu', img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa', desc: 'Dünya uzaydan bir harika görünüyor. 🌍' },
+            { user: 'gamer_doruk', img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e', desc: 'Brawl Stars turnuvasına hazırlık! 🎮' }
+        ];
+
+        function renderPosts() {
+            const container = document.getElementById('feedContainer');
+            posts.forEach(p => {
+                const media = p.vid ? `<video src="${p.vid}" autoplay muted loop class="w-full aspect-square object-cover"></video>` : `<img src="${p.img}" class="w-full aspect-square object-cover">`;
+                container.innerHTML += `
+                    <article class="bg-white border-b mb-4">
+                        <div class="flex items-center p-3 font-bold text-sm">
+                            <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=${p.user}" class="w-8 h-8 rounded-full mr-2">
+                            <span>${p.user}</span>
+                        </div>
+                        ${media}
+                        <div class="p-4">
+                            <div class="flex space-x-4 text-2xl mb-2"><i class="fa-regular fa-heart cursor-pointer" onclick="this.classList.toggle('text-red-500');this.classList.toggle('fa-solid')"></i><i class="fa-regular fa-comment"></i></div>
+                            <p class="text-sm"><b>${p.user}</b> ${p.desc}</p>
+                        </div>
+                    </article>
+                `;
+            });
+        }
+        renderPosts();
+
+        // --- 2. ARAMA SİMÜLASYONU ---
+        function simulateSearch() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            const res = document.getElementById('searchResults');
+            const list = document.getElementById('searchList');
+            const data = [
+                { n: 'Galatasaray SK', i: 'https://i.pravatar.cc/150?u=gs', d: 'Resmi Hesap' },
+                { n: 'Fenerbahçe SK', i: 'https://i.pravatar.cc/150?u=fb', d: 'Resmi Hesap' },
+                { n: 'YouTube Türkiye', i: 'https://i.pravatar.cc/150?u=yt', d: 'Video Platformu' }
+            ];
+
+            if(val.length > 0) {
+                res.classList.remove('hidden');
+                list.innerHTML = data.filter(item => item.n.toLowerCase().includes(val)).map(item => `
+                    <div class="flex items-center mb-4">
+                        <img src="${item.i}" class="w-12 h-12 rounded-full mr-3">
+                        <div><p class="font-bold text-sm">${item.n}</p><p class="text-xs text-gray-400">${item.d}</p></div>
+                    </div>
+                `).join('');
+            } else { res.classList.add('hidden'); }
+        }
+
+        // --- 3. HİKAYE & SAYFA YÖNETİMİ ---
+        function switchTab(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            if(id !== 'cameraPage') stopCamera();
+        }
+
+        function openStory(name, uImg, cImg) {
+            const ov = document.getElementById('storyOverlay');
+            document.getElementById('storyUserName').innerText = name;
+            document.getElementById('storyUserImg').src = uImg;
+            document.getElementById('storyContent').src = cImg;
+            ov.style.display = 'block';
+            let w = 0;
+            const timer = setInterval(() => {
+                w += 2; document.getElementById('storyFill').style.width = w+'%';
+                if(w >= 100) { clearInterval(timer); closeStory(); }
+            }, 50);
+        }
+        function closeStory() { document.getElementById('storyOverlay').style.display = 'none'; }
+
+        let stream;
+        async function startCamera() {
+            switchTab('cameraPage');
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            document.getElementById('webcam').srcObject = stream;
+        }
+        function stopCamera() { if(stream) stream.getTracks().forEach(t => t.stop()); }
+    </script>
+</body>
+</html>
 
