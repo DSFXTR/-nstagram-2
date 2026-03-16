@@ -340,4 +340,54 @@ window.onload = () => {
         <div class="flex flex-col items-center"><i class="fa-solid fa-share"></i></div>
     </div>
 </div>
+<style>
+    /* ... eski kodların ... */
+    
+    .volume-control { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 8px; border-radius: 50%; cursor: pointer; z-index: 20; }
+    .loader { border: 3px solid #f3f3f3; border-top: 3px solid #8b5cf6; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
+<script>
+    // ÖNEMLİ: Eğer ekranda o yazıları görüyorsan, 
+    // <script> etiketini açmayı veya kapatmayı unutmuş olabilirsin.
+
+    function toggleMute(btn, videoId) {
+        const video = document.getElementById(videoId);
+        const icon = btn.querySelector('i');
+        if (video.muted) {
+            video.muted = false;
+            video.volume = 0.8;
+            icon.className = 'fa-solid fa-volume-high';
+        } else {
+            video.muted = true;
+            icon.className = 'fa-solid fa-volume-xmark';
+        }
+    }
+
+    const observerOptions = { threshold: 0.7 };
+    const reelsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target.querySelector('video');
+            const loader = entry.target.querySelector('.video-loader');
+            if (entry.isIntersecting && video) {
+                if(loader) loader.style.display = 'none';
+                video.play().catch(e => console.log("Hata:", e));
+            } else if(video) {
+                video.pause();
+            }
+        });
+    }, observerOptions);
+
+    function initReels() {
+        document.querySelectorAll('.reels-item').forEach(item => reelsObserver.observe(item));
+    }
+
+    // Mevcut window.onload fonksiyonun varsa onun içine ekle, yoksa bunu kullan:
+    window.addEventListener('load', () => {
+        initReels();
+        const firstVideo = document.querySelector('video');
+        if(firstVideo) firstVideo.muted = false;
+    });
+</script>
 
