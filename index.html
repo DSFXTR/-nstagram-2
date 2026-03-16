@@ -322,4 +322,131 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialPro | Ultimate Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .story-ring { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; }
+        .page { display: none; min-height: 100vh; animation: fadeIn 0.3s ease; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .reels-video { height: calc(100vh - 64px); scroll-snap-align: start; }
+        .reels-container { height: calc(100vh - 64px); scroll-snap-type: y mandatory; overflow-y: scroll; }
+    </style>
+</head>
+<body class="bg-white pb-16 font-sans">
+
+    <div id="homePage" class="page active-page">
+        <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-black italic tracking-tighter">SocialPro</h1>
+            <div class="flex space-x-6 text-xl">
+                <i class="fa-regular fa-heart cursor-pointer"></i>
+                <i class="fa-regular fa-comment-dots cursor-pointer" onclick="switchTab('dmPage')"></i>
+            </div>
+        </header>
+
+        <div class="py-4 overflow-x-auto flex space-x-4 px-4 hide-scrollbar border-b">
+            <div class="flex flex-col items-center flex-shrink-0"><div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=gs" class="w-16 h-16 rounded-full border-2 border-white"></div><span class="text-[10px] mt-1 font-bold">galatasaray</span></div>
+            <div class="flex flex-col items-center flex-shrink-0"><div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=tech" class="w-16 h-16 rounded-full border-2 border-white"></div><span class="text-[10px] mt-1">kod_dunyasi</span></div>
+            <div class="flex flex-col items-center flex-shrink-0"><div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=music" class="w-16 h-16 rounded-full border-2 border-white"></div><span class="text-[10px] mt-1">musician_life</span></div>
+            <div class="flex flex-col items-center flex-shrink-0"><div class="story-ring rounded-full"><img src="https://i.pravatar.cc/150?u=game" class="w-16 h-16 rounded-full border-2 border-white"></div><span class="text-[10px] mt-1">brawl_stars_tr</span></div>
+        </div>
+
+        <main id="feed" class="max-w-lg mx-auto">
+            <article class="mb-4">
+                <div class="flex items-center p-3 space-x-2 font-bold text-sm"><img src="https://i.pravatar.cc/150?u=osimhen" class="w-8 h-8 rounded-full"><span>victor_osimhen</span></div>
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018" class="w-full object-cover aspect-square shadow-sm">
+                <div class="p-4"><div class="flex space-x-4 text-2xl mb-2"><i class="fa-regular fa-heart" onclick="this.classList.toggle('fa-solid');this.classList.toggle('text-red-500')"></i><i class="fa-regular fa-comment"></i><i class="fa-regular fa-paper-plane"></i></div><p class="text-sm font-bold">128.540 beğenme</p><p class="text-sm"><b>victor_osimhen</b> RAMS Park is on fire! 🦁🔥 #Galatasaray</p></div>
+            </article>
+        </main>
+    </div>
+
+    <div id="reelsPage" class="page bg-black">
+        <div class="reels-container hide-scrollbar">
+            <div class="reels-video relative flex items-center justify-center">
+                <video src="https://assets.mixkit.co/videos/preview/mixkit-basketball-player-dribbling-the-ball-in-the-street-at-night-2143-large.mp4" autoplay muted loop class="w-full h-full object-cover"></video>
+                <div class="absolute bottom-10 left-4 text-white p-4">
+                    <p class="font-bold">@basket_academy</p>
+                    <p class="text-sm">Gece antrenmanları hiç bitmez! 🏀</p>
+                </div>
+                <div class="absolute right-4 bottom-20 flex flex-col space-y-6 text-white text-2xl">
+                    <i class="fa-solid fa-heart text-red-500"></i>
+                    <i class="fa-solid fa-comment"></i>
+                    <i class="fa-solid fa-share"></i>
+                </div>
+            </div>
+            <div class="reels-video relative flex items-center justify-center bg-gray-900">
+                <video src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-close-up-1728-large.mp4" autoplay muted loop class="w-full h-full object-cover"></video>
+                <div class="absolute bottom-10 left-4 text-white">
+                    <p class="font-bold">@doruk_dev</p>
+                    <p class="text-sm">Yeni SocialPro üzerinde çalışıyorum... 💻</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dmPage" class="page bg-white">
+        <header class="p-4 border-b flex items-center">
+            <i class="fa-solid fa-arrow-left text-xl mr-4" onclick="switchTab('homePage')"></i>
+            <h2 class="text-xl font-bold">Mesajlar</h2>
+        </header>
+        <div class="p-4 space-y-6">
+            <div class="flex items-center space-x-4 cursor-pointer" onclick="alert('Sohbet açılıyor...')">
+                <div class="w-14 h-14 bg-gray-200 rounded-full overflow-hidden"><img src="https://i.pravatar.cc/150?u=gs"></div>
+                <div class="flex-1 border-b pb-4"><p class="font-bold">Galatasaray SK</p><p class="text-xs text-gray-500">Yeni transfer haberi geldi!</p></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="w-14 h-14 bg-blue-100 rounded-full overflow-hidden"><img src="https://i.pravatar.cc/150?u=ark"></div>
+                <div class="flex-1 border-b pb-4"><p class="font-bold">Kuzen Mert</p><p class="text-xs text-blue-500 font-bold">Görüldü • 14:20</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profilePage" class="page">
+        <header class="p-4 flex justify-between items-center border-b">
+            <span class="font-bold">doruk_seyrek</span>
+            <i class="fa-solid fa-bars text-xl"></i>
+        </header>
+        <div class="p-6 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full border-2 border-gray-200 p-1 mb-4">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doruk" class="rounded-full bg-gray-50">
+            </div>
+            <h2 class="text-xl font-bold">Doruk Seyrek</h2>
+            <p class="text-center text-sm text-gray-500 mt-2 italic font-medium">Müzisyen | Geliştirici | Galatasaraylı 🦁<br>Kasım Ekenler Ortaokulu öğrencisi</p>
+            <div class="flex space-x-10 mt-6 text-center">
+                <div><p class="font-bold text-lg">24</p><p class="text-xs text-gray-400">Post</p></div>
+                <div><p class="font-bold text-lg">1.2K</p><p class="text-xs text-gray-400">Takipçi</p></div>
+                <div><p class="font-bold text-lg">450</p><p class="text-xs text-gray-400">Takip</p></div>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 gap-0.5 mt-2">
+            <div class="aspect-square bg-gray-100"><img src="https://picsum.photos/400?random=1" class="w-full h-full object-cover"></div>
+            <div class="aspect-square bg-gray-100"><img src="https://picsum.photos/400?random=2" class="w-full h-full object-cover"></div>
+            <div class="aspect-square bg-gray-100"><img src="https://picsum.photos/400?random=3" class="w-full h-full object-cover"></div>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-100 flex justify-around items-center py-4 text-2xl z-50 shadow-2xl">
+        <i class="fa-solid fa-house" onclick="switchTab('homePage')"></i>
+        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <i class="fa-solid fa-clapperboard text-gray-400" onclick="switchTab('reelsPage')"></i>
+        <i class="fa-solid fa-heart text-gray-400"></i>
+        <div onclick="switchTab('profilePage')" class="w-7 h-7 rounded-full border overflow-hidden cursor-pointer"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doruk"></div>
+    </nav>
+
+    <script>
+        function switchTab(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
 
